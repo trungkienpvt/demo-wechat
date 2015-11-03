@@ -1,0 +1,19 @@
+<?php
+function custom_node_presave($node){
+    if($node->type=='instagram_media_item'){
+        $term_name = str_replace('#', '', $node->body['und'][0]['value']);
+        if(!empty($term_name)){
+            $term = taxonomy_get_term_by_name($term_name);
+            if(!empty($term)){
+                list($key,$value) = each($term);
+                if(!empty($value)){
+                    $node->field_instf_hash_tags = array('und'=>array(array('tid'=>$value->tid)));
+                }
+
+            }
+
+        }
+    }
+
+}
+
